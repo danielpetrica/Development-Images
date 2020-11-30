@@ -26,36 +26,28 @@ jobs:
           password: ${{ secrets.PAT_TOKEN }}
 
       - name: build php:7.4.10
-        id: build_php:7.4.10
         run: docker build -f dockerfiles/php7.4.10-fpm.dockerfile --tag 'ghcr.io/danielpetrica/php:7.4.10' .
 
       - name: build php:7.4.10-mongo
-        id: build_php:7.4.10-mongo
         run: docker build -f dockerfiles/php7.4.10-mongo-fpm.dockerfile --tag 'ghcr.io/danielpetrica/php:7.4.10-mongo' .
 
 
       - name: build php:7.2.24
-        id: build_7.2.24
         run: docker build -f dockerfiles/php7.2.24-fpm.dockerfile  --tag ghcr.io/danielpetrica/php:7.2.24 .
 
       - name: build php:7.1.30
-        id: build_php:7.1.30
         run: docker build -f dockerfiles/php7.1.30-fpm.dockerfile  --tag ghcr.io/danielpetrica/php:7.1.30 .
 
       - name:  and push php:7.4.10
-        id: build_php:7.4.10
         run:  docker push ghcr.io/danielpetrica/php:7.4.10
 
       - name:  and push php:7.4.10-mongo
-        id: build_php:7.4.10-mongo
         run:  docker push ghcr.io/danielpetrica/php:7.4.10-mongo
 
       - name:  and push php:7.2.24
-        id: push_php:7.2.24
         run:  docker push ghcr.io/danielpetrica/php:7.2.24
 
       - name:  and push php:7.1.30
-        id: push_php:7.1.30
         run:  docker push ghcr.io/danielpetrica/php:7.1.30
 
 
