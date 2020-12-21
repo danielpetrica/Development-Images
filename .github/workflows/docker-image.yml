@@ -35,8 +35,8 @@ jobs:
       - name: build php:7.2.24
         run: docker build -f dockerfiles/php7.2.24-fpm.dockerfile  --tag ghcr.io/danielpetrica/php:7.2.24 .
 
-      - name: build php:7.1.30
-        run: docker build -f dockerfiles/php7.1.30-fpm.dockerfile  --tag ghcr.io/danielpetrica/php:7.1.30 .
+      - name: build php:7.1.30-composer1
+        run: docker build -f dockerfiles/php7.1.30-fpm-composer1.dockerfile  --tag ghcr.io/danielpetrica/php:7.1.30-composer1 .
 
       - name:  and push php:7.4.10
         run:  docker push ghcr.io/danielpetrica/php:7.4.10
@@ -49,6 +49,8 @@ jobs:
 
       - name:  and push php:7.1.30
         run:  docker push ghcr.io/danielpetrica/php:7.1.30
+      - name:  and push php:7.1.30-composer1
+        run:  docker push ghcr.io/danielpetrica/php:7.1.30-composer1
 
 
 #       - name: Push to Github
