@@ -25,6 +25,11 @@ RUN apt-get update && apt-get install -y -qq \
 RUN set -x
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
 
+# Enable opchache to reduce TTFB
+RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache
+#RUN docker-php-ext-configure opcache --enable-opcache \
+#    && docker-php-ext-install opcach
+
 # Configure pecl and install
 # command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
 RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini"
