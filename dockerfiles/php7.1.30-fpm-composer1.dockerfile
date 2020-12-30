@@ -27,7 +27,7 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/n
 
 # Enable opchache to reduce TTFB
 RUN docker-php-ext-configure opcache --enable-opcache \
-    && docker-php-ext-install opcach
+    && docker-php-ext-install opcache
 
 # Configure pecl and install
 # command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
