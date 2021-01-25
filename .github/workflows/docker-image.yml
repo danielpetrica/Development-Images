@@ -36,7 +36,7 @@ jobs:
         run: docker build -f dockerfiles/php7.3.3-fpm.dockerfile --tag 'ghcr.io/danielpetrica/php:7.3.3' .
 
       - name: build php:7.3.3-composer1
-        run: docker build -f dockerfiles/php7.3.3-fpm.dockerfile-composer1 --tag 'ghcr.io/danielpetrica/php:7.3.3-composer1' .
+        run: docker build -f dockerfiles/php7.3.3-fpm-composer1.dockerfile --tag 'ghcr.io/danielpetrica/php:7.3.3-composer1' .
 
       - name: build php:7.4.8
         run: docker build -f dockerfiles/php7.4.8-fpm.dockerfile --tag 'ghcr.io/danielpetrica/php:7.4.8' .
