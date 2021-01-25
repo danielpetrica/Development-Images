@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y -qq \
 
 # Install extensions, only output error and warnings
 RUN set -x
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
+RUN docker-php-ext-install pdo_mysql calendar mbstring exif pcntl bcmath gd zip  > /dev/null
 
 # Enable opchache to reduce TTFB
 RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache
