@@ -29,12 +29,12 @@ RUN docker-php-ext-install pdo_mysql calendar mbstring exif pcntl bcmath gd zip 
 RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache
 
 # Configure pecl and install
-# command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
-RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini"
+# command pecl install will not enable your extension after installation,
+# so you'll have to run docker-php-ext-enable [extension]
+RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini" \
+ && pecl install redis  > /dev/null \ &&  rm -rf /tmp/pear \ && docker-php-ext-enable redis  > /dev/null
 # I don't need mongo db so i can disable it
 #\
-# && pecl install mongodb  > /dev/null \
-# && docker-php-ext-enable mongodb  > /dev/null
 
 # Get latest Composer
 COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
