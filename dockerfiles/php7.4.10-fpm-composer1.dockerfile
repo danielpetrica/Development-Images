@@ -37,7 +37,7 @@ RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini"
 # && docker-php-ext-enable mongodb  > /dev/null
 
 # Get latest Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
 
 # Add user for laravel application
 RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \
