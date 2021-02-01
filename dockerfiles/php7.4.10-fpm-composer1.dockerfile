@@ -8,7 +8,8 @@ WORKDIR /var/www
 
 
 # Install and then remove cache
-RUN apt-get update && apt-get install -y -qq \
+RUN apt-get update  > /dev/null \
+ && apt-get install -y -qq \
     git \
     curl \
     libpng-dev \
@@ -18,7 +19,7 @@ RUN apt-get update && apt-get install -y -qq \
     libmcrypt-dev \
     libssl-dev \
     zip \
-    unzip \
+    unzip exiftool  > /dev/null \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions, only output error and warnings
@@ -26,7 +27,9 @@ RUN set -x
 RUN docker-php-ext-install exif pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
 
 # Enable opchache to reduce TTFB
-RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache
+RUN docker-php-ext-install opcache > /dev/null \
+ && docker-php-ext-configure opcache  --enable-opcache \
+ && docker-php-ext-configure exif
 
 # Configure pecl and install
 # command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
