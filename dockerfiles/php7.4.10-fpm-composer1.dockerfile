@@ -19,17 +19,18 @@ RUN apt-get update  > /dev/null \
     libmcrypt-dev \
     libssl-dev \
     zip \
-    unzip exiftool  > /dev/null \
+    unzip \
+    exiftool  > /dev/null \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions, only output error and warnings
 RUN set -x
-RUN docker-php-ext-install exif pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
+RUN docker-php-ext-install exif pdo_mysql mbstring pcntl bcmath gd zip  > /dev/null
 
 # Enable opchache to reduce TTFB
-RUN docker-php-ext-install opcache > /dev/null \
- && docker-php-ext-configure opcache  --enable-opcache \
- && docker-php-ext-configure exif
+RUN docker-php-ext-install opcache > /dev/null
+RUN docker-php-ext-configure opcache  --enable-opcache
+RUN docker-php-ext-configure exif --enable-exif
 
 # Configure pecl and install
 # command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
@@ -41,6 +42,7 @@ RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini"
 
 # Get latest Composer
 COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
+RUN composer global require hirak/prestissimo
 
 # Add user for laravel application
 RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \

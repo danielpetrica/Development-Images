@@ -39,6 +39,8 @@ RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini" \
 # Get latest Composer
 COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
 
+RUN composer global require hirak/prestissimo
+
 # Add user for laravel application
 RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \
 	&& mkdir -p /home/phpuser/.composer \
