@@ -8,7 +8,7 @@ WORKDIR /var/www
 
 
 # Install and then remove cache
-RUN apt-get update && apt-get install -y -qq \
+RUN apt-get update > /dev/null && apt-get install -y -qq \
     git \
     curl \
     libpng-dev \
@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y -qq \
     libmcrypt-dev \
     libssl-dev \
     zip \
-    unzip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    unzip > /dev/null \
+    && apt-get clean > /dev/null && rm -rf /var/lib/apt/lists/*
 
 # Install extensions, only output error and warnings
 RUN set -x

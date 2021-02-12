@@ -8,7 +8,7 @@ WORKDIR /var/www
 
 
 # Install and then remove cache
-RUN apt-get update && apt-get install -y -qq \
+RUN apt-get update > /dev/null  && apt-get install -y -qq \
     git \
     curl \
     libpng-dev \
@@ -18,12 +18,12 @@ RUN apt-get update && apt-get install -y -qq \
     libmcrypt-dev \
     libssl-dev \
     zip \
-    unzip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    unzip  > /dev/null \
+    && apt-get clean  > /dev/null && rm -rf /var/lib/apt/lists/*
 
 # Install extensions, only output error and warnings
 RUN set -x
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
+RUN docker-php-ext-install pdo_mysql exif pcntl bcmath gd zip  > /dev/null
 
 # Enable opchache to reduce TTFB
 RUN docker-php-ext-configure opcache --enable-opcache \
@@ -31,11 +31,13 @@ RUN docker-php-ext-configure opcache --enable-opcache \
 
 # Configure pecl and install
 # command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
-RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini"
+RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini" \
 # I don't need mongo db so i can disable it
 #\
-# && pecl install mongodb  > /dev/null \
-# && docker-php-ext-enable mongodb  > /dev/null
+
+ && pecl install redis  > /dev/null \
+ &&  rm -rf /tmp/pear \
+ && docker-php-ext-enable redis  > /dev/null
 
 # Get latest Composer
 COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
