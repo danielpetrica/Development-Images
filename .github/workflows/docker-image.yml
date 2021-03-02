@@ -30,7 +30,7 @@ jobs:
         run: docker pull ghcr.io/danielpetrica/php -a
 
       - name: build php:8
-        run:  docker build -f dockerfiles/php8-fpm.dockerfile --tag 'ghcr.io/danielpetrica/php:8-mongo' .
+        run:  docker build -f dockerfiles/php8-mongo-fpm.dockerfile --tag 'ghcr.io/danielpetrica/php:8-mongo' .
 
       - name: and push ghcr.io/danielpetrica/php:8-mongo
         run: docker push ghcr.io/danielpetrica/php:8-mongo
