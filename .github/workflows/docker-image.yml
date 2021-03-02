@@ -29,7 +29,10 @@ jobs:
       - name: Pull existing images to skip non changed layers
         run: docker pull ghcr.io/danielpetrica/php -a
 
-      - name: build php:7.4.10
+      - name: build php:8
+        run: docker build -f dockerfiles/php8-fpm.dockerfile --tag 'ghcr.io/danielpetrica/php:8-mongo' .
+
+       - name: build php:7.4.10
         run: docker build -f dockerfiles/php7.4.10-fpm.dockerfile --tag 'ghcr.io/danielpetrica/php:7.4.10' .
 
       - name: build php:7.4.10-composer1
