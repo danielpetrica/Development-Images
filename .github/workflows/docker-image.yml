@@ -35,6 +35,12 @@ jobs:
       - name: and push ghcr.io/danielpetrica/php:8-mongo
         run: docker push ghcr.io/danielpetrica/php:8-mongo
 
+      - name: build php:8-composer1
+        run:  docker build -f dockerfiles/php8-mongo-fpm-composer1.dockerfile --tag 'ghcr.io/danielpetrica/php:8-mongo-composer1' .
+
+      - name: and push ghcr.io/danielpetrica/php:8-mongo-composer1
+        run: docker push ghcr.io/danielpetrica/php:8-mongo-composer1
+
       - name: build php:7.4.10
         run: docker build -f dockerfiles/php7.4.10-fpm.dockerfile --tag 'ghcr.io/danielpetrica/php:7.4.10' .
 
