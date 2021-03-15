@@ -22,8 +22,7 @@ RUN apt-get update && apt-get install -y -qq \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 # Use the default production configuration
 RUN mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini && \
- echo "include=${PHP_INI_DIR}/custom.d/ " >> "${PHP_INI_DIR}/php.ini" && \
- echo "include=${PHP_INI_DIR}/conf.d/ " >> "${PHP_INI_DIR}/php.ini"
+ echo "include_path=${PHP_INI_DIR}/custom.d/ " >> "${PHP_INI_DIR}/php.ini" 
 
 
 # Install extensions, only output error and warnings
