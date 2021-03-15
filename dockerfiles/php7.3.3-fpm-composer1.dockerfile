@@ -20,6 +20,10 @@ RUN apt-get update && apt-get install -y -qq \
     zip \
     unzip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Use the default production configuration
+RUN mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini && echo "include=${PHP_INI_DIR}/custom.d/ " >> \
+"${PHP_INI_DIR}/php.ini"
+
 
 # Install extensions, only output error and warnings
 RUN set -x
@@ -31,6 +35,8 @@ RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcac
 # Configure pecl and install
 # command pecl install will not enable your extension after installation,
 # so you'll have to run docker-php-ext-enable [extension]
+
+
 RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini" \
  && pecl install redis  > /dev/null \ &&  rm -rf /tmp/pear \ && docker-php-ext-enable redis  > /dev/null
 # I don't need mongo db so i can disable it
