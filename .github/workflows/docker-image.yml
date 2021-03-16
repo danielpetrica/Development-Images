@@ -69,7 +69,6 @@ jobs:
         run:  docker push ghcr.io/danielpetrica/php:7.4.10-composer1
       - name:  and push php:7.4.10-mongo
         run:  docker push ghcr.io/danielpetrica/php:7.4.10-mongo
-
   buildAndPush_php7_4_8s:
     name: build php:7.4.8 versions
     runs-on: ubuntu-latest
