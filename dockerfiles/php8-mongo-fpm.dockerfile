@@ -34,8 +34,8 @@ RUN docker-php-ext-install  pdo_mysql exif pcntl bcmath gd zip  > /dev/null
 RUN docker-php-ext-configure opcache  --enable-opcache \
     && docker-php-ext-configure  gmp  \
     && docker-php-ext-configure   intl \
-    && docker-php-ext-install opcache
-    && docker-php-ext-install gmp
+    && docker-php-ext-install opcache \
+    && docker-php-ext-install gmp \
     && docker-php-ext-install intl
 
 # Configure pecl and install
