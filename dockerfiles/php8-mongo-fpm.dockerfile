@@ -19,7 +19,6 @@ RUN apt-get update > /dev/null  && apt-get install -y -qq \
     libssl-dev \
     zip \
     libicu-dev \
-    libmagickwand-dev \
     libgmp-dev re2c libmhash-dev libmcrypt-dev file \
     unzip  > /dev/null \
     && apt-get clean  > /dev/null && rm -rf /var/lib/apt/lists/*
@@ -36,11 +35,12 @@ RUN docker-php-ext-configure opcache  --enable-opcache \
     && docker-php-ext-configure   intl \
     && docker-php-ext-install opcache \
     && docker-php-ext-install gmp \
-    && docker-php-ext-install intl
+    && docker-php-ext-install intl \
+    && docker-php-ext-install imagick \
 
 # Configure pecl and install
 # command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
-RUN pecl install imagick-beta  > /dev/null
+#RUN pecl install imagick-beta  > /dev/null
 # I don't need mongo db so i can disable it
 #\
 
