@@ -40,14 +40,14 @@ RUN docker-php-ext-configure opcache  --enable-opcache \
 
 # Configure pecl and install
 # command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
-RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini" \
- && pecl install mongodb   > /dev/null \
- && pecl install redis  > /dev/null \
- && pecl install imagick  > /dev/null \
- && rm -rf /tmp/pear \
- && docker-php-ext-enable mongodb  > /dev/null \
- && docker-php-ext-enable redis  > /dev/null \
- && docker-php-ext-enable imagick  > /dev/null
+RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini"
+RUN pecl install mongodb   > /dev/null
+RUN pecl install redis  > /dev/null
+RUN pecl install imagick  > /dev/null
+RUN rm -rf /tmp/pear
+RUN docker-php-ext-enable mongodb  > /dev/null
+RUN docker-php-ext-enable redis  > /dev/null
+RUN docker-php-ext-enable imagick  > /dev/null
 # I don't need mongo db so i can disable it
 #\
 
