@@ -1,4 +1,4 @@
-FROM php:7.3.3-fpm
+FROM php:7.3.27-fpm
 
 # Copy composer.lock and composer.json
 #COPY composer.lock composer.json /var/www/
@@ -6,7 +6,7 @@ FROM php:7.3.3-fpm
 # Set working directory
 WORKDIR /var/www
 
-COPY "php-fpm config/www.conf" /usr/local/etc/php-fpm.d/www.conf
+COPY php-fpm-config/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Install and then remove cache
 RUN apt-get update && apt-get install -y -qq \
