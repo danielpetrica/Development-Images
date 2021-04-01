@@ -36,7 +36,7 @@ RUN docker-php-ext-configure opcache  --enable-opcache \
     && docker-php-ext-install opcache \
     && docker-php-ext-install gmp \
     && docker-php-ext-install intl \
-    && docker-php-ext-install imagick
+    && install-php-extensions  imagick
 
 # Configure pecl and install
 # command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
