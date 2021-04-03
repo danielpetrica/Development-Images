@@ -31,16 +31,26 @@ RUN docker-php-ext-install  pdo_mysql exif pcntl bcmath gd zip  > /dev/null
 
 # Enable opchache to reduce TTFB
 RUN docker-php-ext-configure opcache  --enable-opcache \
-    && docker-php-ext-configure  gmp  \
-    && docker-php-ext-configure   intl \
+    && docker-php-ext-configure gmp  \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install opcache \
     && docker-php-ext-install gmp \
-    && docker-php-ext-install intl \
-    && install-php-extensions  imagick
+    && docker-php-ext-install intl
+#    && install-php-extensions  imagick # imagik is not supported on php 8!
 
 # Configure pecl and install
-# command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
-#RUN pecl install imagick-beta  > /dev/null
+# command pecl install will not enable your extension after installation,
+# so you'll have to run docker-php-ext-enable [extension]
+RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini" \
+ && pecl install redis  > /dev/null \
+ && rm -rf /tmp/pear \
+ && docker-php-ext-enable redis  > /dev/null
+
+#RUN pecl install imagick
+#RUN docker-php-ext-enable imagick
+# && pecl install imagick-beta  > /dev/null \
+# && docker-php-ext-enable imagick-beta  > /dev/null
+
 # I don't need mongo db so i can disable it
 #\
 
