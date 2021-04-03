@@ -18,22 +18,32 @@ RUN apt-get update && apt-get install -y -qq \
     libmcrypt-dev \
     libssl-dev \
     zip \
+    libmagickwand-dev \
+    libgmp-dev re2c libmhash-dev libmcrypt-dev file \
     unzip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
+RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/
 # Install extensions, only output error and warnings
 RUN set -x
 RUN docker-php-ext-install exif pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
 
 # Enable opchache to reduce TTFB
-RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache
+RUN docker-php-ext-install opcache > /dev/null \
+&& docker-php-ext-configure gmp \
+&& docker-php-ext-configure intl \
+&& docker-php-ext-install intl \
+&& docker-php-ext-install gmp \
+&& docker-php-ext-install opcache
+
 
 # Configure pecl and install
 # command pecl install will not enable your extension after installation, so you'll have to run docker-php-ext-enable [extension]
 RUN pecl config-set php_ini "${PHP_INI_DIR}/php.ini" \
- && pecl install redis  > /dev/null \
- &&  rm -rf /tmp/pear \
- && docker-php-ext-enable redis  > /dev/null
+&& pecl install redis  > /dev/null \
+&& pecl install imagick-beta  > /dev/null \
+&& rm -rf /tmp/pear \
+&& docker-php-ext-enable imagick > /dev/null \
+&& docker-php-ext-enable redis  > /dev/null
 # I don't need mongo db so i can disable it
 #\
 # && pecl install mongodb  > /dev/null \
