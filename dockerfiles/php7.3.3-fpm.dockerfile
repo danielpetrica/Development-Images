@@ -27,7 +27,8 @@ RUN mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini  \
 
 # Install extensions, only output error and warnings
 RUN set -x
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath zip  > /dev/null
+RUN docker-php-ext-install gd --with-freetype --with-jpeg  > /dev/null
 
 # Enable opchache to reduce TTFB
 RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache
