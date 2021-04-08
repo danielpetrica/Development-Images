@@ -7,7 +7,8 @@ FROM php:7.3.3-fpm
 WORKDIR /var/www
 
 # Install and then remove cache
-RUN apt-get update && apt-get install -y -qq \
+RUN apt-get update > /dev/null && \
+ apt-get install -y -qq \
     git \
     curl \
     libpng-dev \
@@ -17,16 +18,19 @@ RUN apt-get update && apt-get install -y -qq \
     libmcrypt-dev \
     libssl-dev \
     zip \
-    unzip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    unzip > /dev/null && \
+ apt-get clean > /dev/null && \
+ rm -rf /var/lib/apt/lists/*
 # Use the default production configuration
 RUN mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini && \
  echo "include_path=${PHP_INI_DIR}/custom.d/ " >> "${PHP_INI_DIR}/php.ini"
 
 # Install extensions, only output error and warnings
 RUN set -x
-RUN docker-php-ext-install pdo_mysql calendar mbstring exif pcntl bcmath gd zip  > /dev/null
-RUN docker-php-ext-install gd --with-freetype --with-jpeg  > /dev/null
+#  gd --with-freetype-dir --with-jpeg-dir for PHP <7.4
+#  gd --with-freetype--with-jpeg for PHP > 7.4
+RUN docker-php-ext-configure gd --with-freetype-dir --with-jpeg-dir > /dev/null && \
+    docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
 
 # Enable opchache to reduce TTFB
 RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache
