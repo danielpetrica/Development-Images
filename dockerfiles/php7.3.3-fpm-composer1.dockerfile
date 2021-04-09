@@ -1,4 +1,4 @@
-FROM php:7.3.3-fpm
+FROM php:7.3-fpm-stretch
 
 # Copy composer.lock and composer.json
 #COPY composer.lock composer.json /var/www/
@@ -17,6 +17,7 @@ RUN apt-get update > /dev/null && \
     libzip-dev \
     libmcrypt-dev \
     libssl-dev \
+    libjpeg62-turbo-dev \
     zip \
     unzip > /dev/null && \
  apt-get clean > /dev/null && \
@@ -29,8 +30,8 @@ RUN mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini && \
 RUN set -x
 #  gd --with-freetype-dir --with-jpeg-dir for PHP <7.4
 #  gd --with-freetype--with-jpeg for PHP > 7.4
-RUN docker-php-ext-configure gd --with-freetype-dir --with-jpeg-dir > /dev/null && \
-    docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
+RUN docker-php-ext-configure gd --with-jpeg-dir > /dev/null
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
 
 # Enable opchache to reduce TTFB
 RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache

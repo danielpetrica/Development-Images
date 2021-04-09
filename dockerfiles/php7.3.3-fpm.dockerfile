@@ -1,4 +1,4 @@
-FROM php:7.3.27-fpm
+FROM php:7.3-fpm-stretch
 
 # Copy composer.lock and composer.json
 #COPY composer.lock composer.json /var/www/
@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y -qq \
     libzip-dev \
     libmcrypt-dev \
     libssl-dev \
+    libjpeg62-turbo-dev \
     zip \
     unzip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -27,8 +28,10 @@ RUN mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini  \
 
 # Install extensions, only output error and warnings
 RUN set -x
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg > /dev/null && \
- docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
+#  gd --with-freetype-dir --with-jpeg-dir for PHP <7.4
+#  gd --with-freetype--with-jpeg for PHP > 7.4
+RUN docker-php-ext-configure gd --with-jpeg-dir > /dev/null
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
 
 # Enable opchache to reduce TTFB
 RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache
