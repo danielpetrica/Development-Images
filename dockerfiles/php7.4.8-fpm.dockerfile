@@ -44,6 +44,11 @@ RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \
 	&& mkdir -p /home/phpuser/.composer \
 	&& chown -R phpuser:phpuser /home/phpuser
 
+
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
+RUN nvm install --lts && nvm use lts
+
 #COPY . /var/www
 # Copy existing application directory permissions
 #COPY --chown=phpuser:phpuser . /var/www
