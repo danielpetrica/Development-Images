@@ -60,13 +60,28 @@ RUN bash && "$HOME/.nvm/nvm.sh" install --lts && "$HOME/.nvm/nvm.sh" use lts
 # Change current user to www
 USER phpuser
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-#\
-# && export NVM_DIR="$HOME/.nvm" \
-#  [ -s "$HOME/.nvm/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-# && export [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+##\
+## && export NVM_DIR="$HOME/.nvm" \
+##  [ -s "$HOME/.nvm/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+## && export [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+#
+#RUN bash && "$HOME/.nvm/nvm.sh" install --lts && "$HOME/.nvm/nvm.sh" use lts
 
-RUN bash && "$HOME/.nvm/nvm.sh" install --lts && "$HOME/.nvm/nvm.sh" use lts
+# Install nvm to install npm and node.js
+ENV NVM_DIR /root/.nvm
+ENV NODE_VERSION lts/*
+RUN mkdir $HOME/.nvm && \
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash && \
+    chmod +x $HOME/.nvm/nvm.sh && \
+    . $HOME/.nvm/nvm.sh && \
+    nvm install --latest-npm "$NODE_VERSION" && \
+    nvm alias default "$NODE_VERSION" && \
+    nvm use default && \
+    DEFAULT_NODE_VERSION=$(nvm version default) && \
+    ln -sf /root/.nvm/versions/node/$DEFAULT_NODE_VERSION/bin/node /usr/bin/nodejs && \
+    ln -sf /root/.nvm/versions/node/$DEFAULT_NODE_VERSION/bin/node /usr/bin/node && \
+    ln -sf /root/.nvm/versions/node/$DEFAULT_NODE_VERSION/bin/npm /usr/bin/npm
 
 
 # Expose port 9000 and start php-fpm server
