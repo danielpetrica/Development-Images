@@ -45,12 +45,13 @@ RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \
 	&& chown -R phpuser:phpuser /home/phpuser
 
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
- && export NVM_DIR="$HOME/.nvm" \
- && export [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
- && export [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+#\
+# && export NVM_DIR="$HOME/.nvm" \
+#  [ -s "$HOME/.nvm/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+# && export [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-RUN bash && nvm install --lts && nvm use lts
+RUN bash && "$HOME/.nvm/nvm.sh" install --lts && "$HOME/.nvm/nvm.sh" use lts
 
 #COPY . /var/www
 # Copy existing application directory permissions
