@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-stretch
+FROM php:7.3.3-fpm-stretch
 
 # Copy composer.lock and composer.json
 #COPY composer.lock composer.json /var/www/
@@ -54,6 +54,18 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \
 	&& mkdir -p /home/phpuser/.composer \
 	&& chown -R phpuser:phpuser /home/phpuser
+
+
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+#\
+# && export NVM_DIR="$HOME/.nvm" \
+#  [ -s "$HOME/.nvm/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+# && export [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+RUN export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" \
+  && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+  && nvm install --lts && nvm use --lts
+# This loads nvm
 
 #COPY . /var/www
 # Copy existing application directory permissions
