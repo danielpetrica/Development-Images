@@ -106,8 +106,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.PAT_TOKEN }}
       - name: build php:7.3.3
-        run: docker pull ghcr.io/danielpetrica/php:7.3.3 \
-          &&  docker build -f dockerfiles/php7.3.3-fpm.dockerfile  --tag 'ghcr.io/danielpetrica/php:7.3.3' .
+        run:  docker build -f dockerfiles/php7.3.3-fpm.dockerfile  --tag 'ghcr.io/danielpetrica/php:7.3.3' .
       - name: build php:7.3.3-composer1
         run: docker build -f dockerfiles/php7.3.3-fpm-composer1.dockerfile --tag 'ghcr.io/danielpetrica/php:7.3.3-composer1' .
       - name:  and push php:7.3.3
