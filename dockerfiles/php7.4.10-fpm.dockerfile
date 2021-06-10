@@ -54,7 +54,7 @@ RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \
 	&& mkdir -p /home/phpuser/.composer \
 	&& chown -R phpuser:phpuser /home/phpuser
 
-	
+
 #COPY . /var/www
 # Copy existing application directory permissions
 #COPY --chown=phpuser:phpuser . /var/www
