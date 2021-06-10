@@ -54,6 +54,14 @@ RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \
 	&& mkdir -p /home/phpuser/.composer \
 	&& chown -R phpuser:phpuser /home/phpuser
 
+	
+#COPY . /var/www
+# Copy existing application directory permissions
+#COPY --chown=phpuser:phpuser . /var/www
+
+# Change current user to www
+USER phpuser
+
 
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
@@ -67,12 +75,6 @@ RUN export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" |
   && nvm install --lts && nvm use --lts
 # This loads nvm
 
-#COPY . /var/www
-# Copy existing application directory permissions
-#COPY --chown=phpuser:phpuser . /var/www
-
-# Change current user to www
-USER phpuser
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
