@@ -52,8 +52,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Add user for laravel application
 RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \
 	&& mkdir -p /home/phpuser/.composer \
+	&& touch /home/phpuser/.bashrc \
 	&& chown -R phpuser:phpuser /home/phpuser
-
 
 #COPY . /var/www
 # Copy existing application directory permissions
@@ -61,8 +61,6 @@ RUN useradd -G www-data,root -u 1000 -d /home/phpuser phpuser \
 
 # Change current user to www
 USER phpuser
-
-
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 #\
