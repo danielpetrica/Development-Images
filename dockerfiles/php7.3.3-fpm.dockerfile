@@ -31,7 +31,7 @@ RUN set -x
 #  gd --with-freetype-dir --with-jpeg-dir for PHP <7.4
 #  gd --with-freetype--with-jpeg for PHP > 7.4
 RUN docker-php-ext-configure gd --with-jpeg-dir > /dev/null
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip  > /dev/null
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip calendar > /dev/null
 
 # Enable opchache to reduce TTFB
 RUN docker-php-ext-install opcache > /dev/null && docker-php-ext-configure opcache --enable-opcache
