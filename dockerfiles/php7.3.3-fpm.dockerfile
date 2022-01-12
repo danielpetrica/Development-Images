@@ -1,4 +1,4 @@
-FROM php:7.3.3-fpm-stretch
+FROM php:7.3.29-fpm-stretch
 
 # Copy composer.lock and composer.json
 #COPY composer.lock composer.json /var/www/
