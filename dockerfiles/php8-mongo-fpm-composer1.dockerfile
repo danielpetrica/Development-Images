@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:8.1.0alpha2-fpm
 
 
 # Copy composer.lock and composer.json
